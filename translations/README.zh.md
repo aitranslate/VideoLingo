@@ -12,6 +12,23 @@
 
 </div>
 
+## 📝 我的修改与优化
+
+### 最近更新
+- **2025-01**: 使用 `audio-separator[gpu]==0.40.0` 替代 `demucs` 以实现更好的人声分离
+  - 更新所有依赖到最新版本（PyTorch 2.8.0、WhisperX 等）
+  - 移除基于云端的转录渠道（elevenlabs、whisperX_302）
+  - 将音频输出格式从 MP3 改为 WAV 以获得更高质量
+  - 简化安装流程，支持自动 GPU 检测
+
+### 技术改进
+- 修复 PyTorch 2.6+ 与 omegaconf 的兼容性问题
+- 使用 audio-separator 的 Kim_Vocal_2.onnx 模型优化音频处理流程
+- 清理不必要的文件和代码
+- 更新翻译和配置
+
+---
+
 ## 🌟 简介（[在线体验！](https://videolingo.io)）
 
 VideoLingo 是一站式视频翻译本地化配音工具，能够一键生成 Netflix 级别的高质量字幕，告别生硬机翻，告别多行字幕，还能加上高质量的克隆配音，让全世界的知识能够跨越语言的障碍共享。

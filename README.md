@@ -10,6 +10,23 @@
 
 </div>
 
+## 📝 My Modifications & Improvements
+
+### Recent Updates
+- **2025-01**: Replaced `demucs` with `audio-separator[gpu]==0.40.0` for better vocal separation
+  - Updated all dependencies to latest versions (PyTorch 2.8.0, WhisperX, etc.)
+  - Removed cloud-based transcription channels (elevenlabs, whisperX_302)
+  - Changed audio output format from MP3 to WAV for better quality
+  - Simplified installation process with automatic GPU detection
+
+### Technical Improvements
+- Fixed PyTorch 2.6+ compatibility issues with omegaconf
+- Optimized audio processing pipeline with audio-separator's Kim_Vocal_2.onnx model
+- Removed unnecessary files and cleaned up codebase
+- Updated translations and configuration
+
+---
+
 ## 🌟 Overview ([Try VL Now!](https://videolingo.io))
 
 VideoLingo is an all-in-one video translation, localization, and dubbing tool aimed at generating Netflix-quality subtitles. It eliminates stiff machine translations and multi-line subtitles while adding high-quality dubbing, enabling global knowledge sharing across language barriers.
