@@ -123,11 +123,15 @@ def main():
     has_gpu = platform.system() != 'Darwin' and check_nvidia_gpu()
     if has_gpu:
         console.print(Panel(t("🎮 NVIDIA GPU detected, installing CUDA version of PyTorch..."), style="cyan"))
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "torch==2.0.0", "torchaudio==2.0.0", "--index-url", "https://download.pytorch.org/whl/cu118"])
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "torch==2.8.0", "torchaudio==2.8.0", "--index-url", "https://download.pytorch.org/whl/cu128"])
+        console.print(Panel(t("🎵 Installing audio-separator with GPU support..."), style="cyan"))
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "audio-separator[gpu]==0.40.0"])
     else:
         system_name = "🍎 MacOS" if platform.system() == 'Darwin' else "💻 No NVIDIA GPU"
         console.print(Panel(t(f"{system_name} detected, installing CPU version of PyTorch... Note: it might be slow during whisperX transcription."), style="cyan"))
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "torch==2.1.2", "torchaudio==2.1.2"])
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "torch==2.8.0", "torchaudio==2.8.0"])
+        console.print(Panel(t("🎵 Installing audio-separator with CPU support..."), style="cyan"))
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "audio-separator[cpu]==0.40.0"])
 
     @except_handler("Failed to install project")
     def install_requirements():

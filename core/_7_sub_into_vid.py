@@ -89,7 +89,7 @@ def merge_subtitles_to_video():
 
     rprint("🎬 Start merging subtitles to video...")
     start_time = time.time()
-    process = subprocess.Popen(ffmpeg_cmd)
+    process = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     try:
         process.wait()

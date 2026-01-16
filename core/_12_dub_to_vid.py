@@ -80,8 +80,8 @@ def merge_video_audio():
         cmd.extend(['-map', '[v]', '-map', '[a]'])
     
     cmd.extend(['-c:a', 'aac', '-b:a', '96k', DUB_VIDEO])
-    
-    subprocess.run(cmd)
+
+    subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     rprint(f"[bold green]Video and audio successfully merged into {DUB_VIDEO}[/bold green]")
 
 if __name__ == '__main__':
