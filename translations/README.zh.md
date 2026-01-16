@@ -6,7 +6,7 @@
 
 <a href="https://trendshift.io/repositories/12200" target="_blank"><img src="https://trendshift.io/api/badge/repositories/12200" alt="Huanshere%2FVideoLingo | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
-[**English**](/README.md)｜[**简体中文**](/translations/README.zh.md)｜[**繁體中文**](/translations/README.zh-TW.md)｜[**日本語**](/translations/README.ja.md)｜[**Español**](/translations/README.es.md)｜[**Русский**](/translations/README.ru.md)｜[**Français**](/translations/README.fr.md)
+[**English**](/README.md) ｜  [**简体中文**](/translations/README.zh.md)
 
 **QQ群：875297969**
 
@@ -29,7 +29,7 @@
 
 ---
 
-## 🌟 简介（[在线体验！](https://videolingo.io)）
+## 🌟 简介
 
 VideoLingo 是一站式视频翻译本地化配音工具，能够一键生成 Netflix 级别的高质量字幕，告别生硬机翻，告别多行字幕，还能加上高质量的克隆配音，让全世界的知识能够跨越语言的障碍共享。
 

@@ -6,7 +6,7 @@
 
 <a href="https://trendshift.io/repositories/12200" target="_blank"><img src="https://trendshift.io/api/badge/repositories/12200" alt="Huanshere%2FVideoLingo | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
-[**English**](/README.md)｜[**简体中文**](/translations/README.zh.md)｜[**繁體中文**](/translations/README.zh-TW.md)｜[**日本語**](/translations/README.ja.md)｜[**Español**](/translations/README.es.md)｜[**Русский**](/translations/README.ru.md)｜[**Français**](/translations/README.fr.md)
+[**English**](/README.md) ｜  [**简体中文**](/translations/README.zh.md)
 
 </div>
 
@@ -27,7 +27,7 @@
 
 ---
 
-## 🌟 Overview ([Try VL Now!](https://videolingo.io))
+## 🌟 Overview
 
 VideoLingo is an all-in-one video translation, localization, and dubbing tool aimed at generating Netflix-quality subtitles. It eliminates stiff machine translations and multi-line subtitles while adding high-quality dubbing, enabling global knowledge sharing across language barriers.
 
