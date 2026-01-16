@@ -111,14 +111,6 @@ python install.py
 streamlit run st.py
 ```
 
-### Docker
-Alternatively, you can use Docker (requires CUDA 12.4 and NVIDIA Driver version >550), see [Docker docs](/docs/pages/docs/docker.en-US.md):
-
-```bash
-docker build -t videolingo .
-docker run -d -p 8501:8501 --gpus all videolingo
-```
-
 ## APIs
 VideoLingo supports OpenAI-Like API format and various TTS interfaces:
 - LLM: `claude-3-5-sonnet`, `gpt-4.1`, `deepseek-v3`, `gemini-2.0-flash`, ... (sorted by performance, be cautious with gemini-2.5-flash...)
