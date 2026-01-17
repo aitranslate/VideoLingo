@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="/docs/logo.png" alt="VideoLingo Logo" height="140">
+<img src="/resources/logo.png" alt="VideoLingo Logo" height="140">
 
 # Connecter le Monde, Image par Image
 
