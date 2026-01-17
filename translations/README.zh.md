@@ -133,14 +133,6 @@ python install.py
 streamlit run st.py
 ```
 
-### Docker
-还可以选择使用 Docker（要求 CUDA 12.4 和 NVIDIA Driver 版本 >550）：
-
-```bash
-docker build -t videolingo .
-docker run -d -p 8501:8501 --gpus all videolingo
-```
-
 ## API
 VideoLingo 支持 OpenAI-Like API 格式和本地 TTS 接口：
 - LLM: `claude-3-5-sonnet`, `gpt-4.1`, `deepseek-v3`, `gemini-2.0-flash`, ...（按效果排序）
