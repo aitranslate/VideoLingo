@@ -134,7 +134,7 @@ streamlit run st.py
 ```
 
 ### Docker
-还可以选择使用 Docker（要求 CUDA 12.4 和 NVIDIA Driver 版本 >550），详见[Docker文档](/docs/pages/docs/docker.zh-CN.md)：
+还可以选择使用 Docker（要求 CUDA 12.4 和 NVIDIA Driver 版本 >550）：
 
 ```bash
 docker build -t videolingo .
@@ -149,7 +149,35 @@ VideoLingo 支持 OpenAI-Like API 格式和本地 TTS 接口：
 
 > **注意：** IndexTTS 支持 3 种模式：**preset**（预设音色）、**global**（3-10秒参考音频用于所有片段）、**dynamic**（每段使用单独的参考音频）
 
-详细的安装、API 配置、批量说明可以参见文档：[English](/docs/pages/docs/start.en-US.md) | [简体中文](/docs/pages/docs/start.zh-CN.md)
+## 📁 资源目录
+
+`resources/` 目录包含用于扩展 VideoLingo 的参考资料和资源文件：
+
+```
+resources/
+├── logo.png          # VideoLingo 标志 (PNG 格式)
+├── logo.svg          # VideoLingo 标志 (SVG 格式，用作网页图标)
+└── indextts_api/
+    ├── api_server.py # IndexTTS 2.0 Flask API 服务器参考实现
+    └── README.md     # IndexTTS 详细设置和使用指南
+```
+
+### 使用 IndexTTS 配合 VideoLingo
+
+1. 安装 [IndexTTS](https://github.com/index-tts/index-tts) 并下载所需模型
+2. 将 `resources/indextts_api/api_server.py` 复制到你的 IndexTTS 目录
+3. 启动 API 服务器：`python api_server.py`
+4. 在 VideoLingo 的 `config.yaml` 中配置：
+   ```yaml
+   tts: "index"
+   index_tts:
+     host: "127.0.0.1"
+     port: 9880
+     mode: "preset"  # 或 "global" / "dynamic"
+     speaker: "voice_01"
+   ```
+
+详细说明请参阅 `resources/indextts_api/README.md`。
 
 ## 当前限制
 1. WhisperX 转录效果可能受到视频背景声影响，因为使用了 wav2vac 模型进行对齐。对于背景音乐较大的视频，请开启人声分离增强。另外，如果字幕以数字或特殊符号结尾，可能会导致提前截断，这是因为 wav2vac 无法将数字字符（如"1"）映射到其发音形式（"one"）。

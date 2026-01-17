@@ -139,7 +139,37 @@ VideoLingo supports OpenAI-Like API format and local TTS interfaces:
 
 > **Note:** IndexTTS supports 3 modes: **preset** (preset voices), **global** (3-10s reference for all segments), **dynamic** (per-segment reference)
 
-For detailed installation, API configuration, and batch mode instructions, please refer to the documentation: [English](/docs/pages/docs/start.en-US.md) | [中文](/docs/pages/docs/start.zh-CN.md)
+## 📁 Resources Directory
+
+The `resources/` directory contains reference materials and assets for extending VideoLingo:
+
+```
+resources/
+├── logo.png          # VideoLingo logo (PNG format)
+├── logo.svg          # VideoLingo logo (SVG format, used as favicon)
+└── indextts_api/
+    ├── api_server.py # Reference Flask API server for IndexTTS 2.0
+    └── README.md     # Detailed IndexTTS setup and usage guide
+```
+
+### Using IndexTTS with VideoLingo
+
+To use IndexTTS 2.0 for local dubbing:
+
+1. Install [IndexTTS](https://github.com/index-tts/index-tts) and download the required models
+2. Copy `resources/indextts_api/api_server.py` to your IndexTTS directory
+3. Start the API server: `python api_server.py`
+4. Configure VideoLingo in `config.yaml`:
+   ```yaml
+   tts: "index"
+   index_tts:
+     host: "127.0.0.1"
+     port: 9880
+     mode: "preset"  # or "global" / "dynamic"
+     speaker: "voice_01"
+   ```
+
+See `resources/indextts_api/README.md` for detailed instructions.
 
 ## Current Limitations
 
