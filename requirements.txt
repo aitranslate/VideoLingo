@@ -23,7 +23,7 @@ autocorrect-py
 ctranslate2==4.6.3
 edge-tts
 
-whisperx @ git+https://github.com/m-bain/whisperx.git
+whisperx==3.7.4
 
 syllables
 pypinyin

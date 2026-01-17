@@ -11,7 +11,7 @@ display_language: "zh-CN"
 
 # API settings
 api:
-  key: ''your-api-key''
+  key: 'your-api-key'
   base_url: 'http://localhost:8088/'
   model: 'gpt-4.1-2025-04-14'
   llm_support_json: false
@@ -22,7 +22,7 @@ max_workers: 4
 target_language: '简体中文'
 
 # Whether to use audio-separator for vocal separation before transcription
-audio_separator: true
+audio_separator: false
 
 whisper:
   # ["large-v3", "large-v3-turbo"]. Note: for zh model will force to use Belle/large-v3
@@ -34,7 +34,7 @@ whisper:
   runtime: 'local'
 
 # Whether to burn subtitles into the video
-burn_subtitles: true
+burn_subtitles: false
 
 ## ======================== Advanced Settings ======================== ##
 # *🔬 h264_nvenc GPU acceleration for ffmpeg, make sure your GPU supports it
@@ -67,7 +67,7 @@ pause_before_translate: false
 
 ## ======================== Dubbing Settings ======================== ##
 # TTS selection [sf_fish_tts, openai_tts, gpt_sovits, azure_tts, fish_tts, edge_tts, custom_tts]
-tts_method: 'custom_tts'
+tts_method: 'edge_tts'
 
 # SiliconFlow FishTTS
 sf_fish_tts:
