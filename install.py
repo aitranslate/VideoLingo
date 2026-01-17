@@ -122,21 +122,31 @@ def main():
     # Detect system and GPU
     has_gpu = platform.system() != 'Darwin' and check_nvidia_gpu()
     if has_gpu:
-        console.print(Panel(t("🎮 NVIDIA GPU detected, installing CUDA version of PyTorch..."), style="cyan"))
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "torch==2.8.0", "torchaudio==2.8.0", "--index-url", "https://download.pytorch.org/whl/cu128"])
-        console.print(Panel(t("🎵 Installing audio-separator with GPU support..."), style="cyan"))
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "audio-separator[gpu]==0.40.0"])
+        console.print(Panel(t("🎮 NVIDIA GPU detected, installing PyTorch and audio-separator with CUDA support..."), style="cyan"))
+        # Install all packages together to let pip resolve dependencies correctly
+        subprocess.check_call([
+            sys.executable, "-m", "pip", "install",
+            "audio-separator[gpu]==0.41.0",
+            "torch==2.8.0+cu128",
+            "torchaudio==2.8.0+cu128",
+            "torchvision==0.23.0+cu128",
+            "--extra-index-url", "https://download.pytorch.org/whl/cu128"
+        ])
     else:
         system_name = "🍎 MacOS" if platform.system() == 'Darwin' else "💻 No NVIDIA GPU"
-        console.print(Panel(t(f"{system_name} detected, installing CPU version of PyTorch... Note: it might be slow during whisperX transcription."), style="cyan"))
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "torch==2.8.0", "torchaudio==2.8.0"])
-        console.print(Panel(t("🎵 Installing audio-separator with CPU support..."), style="cyan"))
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "audio-separator[cpu]==0.40.0"])
+        console.print(Panel(t(f"{system_name} detected, installing PyTorch and audio-separator with CPU support... Note: it might be slow during whisperX transcription."), style="cyan"))
+        subprocess.check_call([
+            sys.executable, "-m", "pip", "install",
+            "audio-separator[cpu]==0.41.0",
+            "torch==2.8.0",
+            "torchaudio==2.8.0",
+            "torchvision==0.23.0"
+        ])
 
     @except_handler("Failed to install project")
     def install_requirements():
-        console.print(Panel(t("Installing project in editable mode using `pip install -e .`"), style="cyan"))
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "-e", "."], env={**os.environ, "PIP_NO_CACHE_DIR": "0", "PYTHONIOENCODING": "utf-8"})
+        console.print(Panel(t("Installing dependencies from requirements.txt"), style="cyan"))
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], env={**os.environ, "PIP_NO_CACHE_DIR": "0", "PYTHONIOENCODING": "utf-8"})
 
     @except_handler("Failed to install Noto fonts")
     def install_noto_font():

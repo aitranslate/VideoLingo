@@ -45,8 +45,11 @@ def transcribe_audio(raw_audio_file, vocal_audio_file, start, end):
     if device == "cuda":
         gpu_mem = torch.cuda.get_device_properties(0).total_memory / (1024**3)
         batch_size = 16 if gpu_mem > 8 else 2
-        compute_type = "float16" if torch.cuda.is_bf16_supported() else "int8"
-        rprint(f"[cyan]🎮 GPU memory:[/cyan] {gpu_mem:.2f} GB, [cyan]📦 Batch size:[/cyan] {batch_size}, [cyan]⚙️ Compute type:[/cyan] {compute_type}")
+        # Check GPU compute capability for float16 support (requires compute capability >= 7.0)
+        compute_cap = torch.cuda.get_device_capability(0)
+        has_float16 = compute_cap[0] >= 7  # Volta (7.x) and later support float16
+        compute_type = "float16" if has_float16 else "int8"
+        rprint(f"[cyan]🎮 GPU memory:[/cyan] {gpu_mem:.2f} GB, [cyan]📦 Batch size:[/cyan] {batch_size}, [cyan]⚙️ Compute type:[/cyan] {compute_type}, [cyan]🔧 Compute capability:[/cyan] {compute_cap[0]}.{compute_cap[1]}")
     else:
         batch_size = 1
         compute_type = "int8"
@@ -59,7 +62,7 @@ def transcribe_audio(raw_audio_file, vocal_audio_file, start, end):
     else:
         model_name = load_key("whisper.model")
         local_model = os.path.join(MODEL_DIR, model_name)
-        
+
     if os.path.exists(local_model):
         rprint(f"[green]📥 Loading local WHISPER model:[/green] {local_model} ...")
         model_name = local_model

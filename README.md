@@ -13,7 +13,7 @@
 ## 📝 My Modifications & Improvements
 
 ### Recent Updates
-- **2025-01**: Replaced `demucs` with `audio-separator[gpu]==0.40.0` for better vocal separation
+- **2025-01**: Replaced `demucs` with `audio-separator[gpu]==0.41.0` for better vocal separation
   - Updated all dependencies to latest versions (PyTorch 2.8.0, WhisperX, etc.)
   - Removed cloud-based transcription channels (elevenlabs, whisperX_302)
   - Changed audio output format from MP3 to WAV for better quality
