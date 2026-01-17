@@ -15,11 +15,14 @@
 ## 📝 我的修改与优化
 
 ### 最近更新
-- **2025-01**: 使用 `audio-separator[gpu]==0.40.0` 替代 `demucs` 以实现更好的人声分离
+- **2025-01**: 使用 `audio-separator[gpu]==0.41.0` 替代 `demucs` 以实现更好的人声分离
   - 更新所有依赖到最新版本（PyTorch 2.8.0、WhisperX 等）
   - 移除基于云端的转录渠道（elevenlabs、whisperX_302）
   - 将音频输出格式从 MP3 改为 WAV 以获得更高质量
   - 简化安装流程，支持自动 GPU 检测
+- **2025-01**: 添加 **IndexTTS 2.0** 集成，支持 3 种模式（preset/global/dynamic）
+  - 移除所有基于 API 的 TTS 服务（302.ai、SiliconFlow）以保护隐私
+  - 现在仅支持本地/离线 TTS：Edge TTS、GPT-SoVITS、IndexTTS、Custom TTS
 
 ### 技术改进
 - 修复 PyTorch 2.6+ 与 omegaconf 的兼容性问题
@@ -139,12 +142,12 @@ docker run -d -p 8501:8501 --gpus all videolingo
 ```
 
 ## API
-本项目支持 OpenAI-Like 格式的 api 和多种配音接口：
-- LLM: `claude-3-5-sonnet`, `gpt-4.1`, `deepseek-v3`, `gemini-2.0-flash`, ...（按效果排序，使用 gemini-2.5-flash 时需谨慎...）
-- WhisperX: 本地运行 WhisperX 或使用 302.ai API
-- TTS: `azure-tts`, `openai-tts`, `siliconflow-fishtts`, **`fish-tts`**, `GPT-SoVITS`, `edge-tts`, `*custom-tts`(你可以在 custom_tts.py 中自定义 TTS!)
+VideoLingo 支持 OpenAI-Like API 格式和本地 TTS 接口：
+- LLM: `claude-3-5-sonnet`, `gpt-4.1`, `deepseek-v3`, `gemini-2.0-flash`, ...（按效果排序）
+- WhisperX: 本地运行 WhisperX (large-v3)
+- TTS（仅支持本地/离线）：`edge-tts`（免费）、`GPT-SoVITS`（本地克隆）、`IndexTTS`（本地克隆）、`custom-tts`（自定义）
 
-> **注意：** VideoLingo 现已与 **[302.ai](https://gpt302.saaslink.net/C2oHR9)** 集成，**一个 API KEY** 即可同时支持 LLM、WhisperX 和 TTS！同时也支持完全本地部署，使用 Ollama 作为 LLM 和 Edge-TTS 作为配音，无需云端 API！
+> **注意：** IndexTTS 支持 3 种模式：**preset**（预设音色）、**global**（3-10秒参考音频用于所有片段）、**dynamic**（每段使用单独的参考音频）
 
 详细的安装、API 配置、批量说明可以参见文档：[English](/docs/pages/docs/start.en-US.md) | [简体中文](/docs/pages/docs/start.zh-CN.md)
 
