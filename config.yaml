@@ -66,54 +66,28 @@ reflect_translate: true
 pause_before_translate: false
 
 ## ======================== Dubbing Settings ======================== ##
-# TTS selection [sf_fish_tts, openai_tts, gpt_sovits, azure_tts, fish_tts, edge_tts, custom_tts]
-tts_method: 'edge_tts'
+# TTS selection [edge_tts, gpt_sovits, custom_tts, index_tts]
+tts_method: 'index_tts'
 
-# SiliconFlow FishTTS
-sf_fish_tts:
-  # SiliconFlow API key
-  api_key: 'YOUR_API_KEY'
-  # only for mode "preset"
-  voice: 'anna'
-  # *only for mode "custom", dont set manually
-  custom_name: ''
-  voice_id: ''
-  # preset, custom, dynamic
-  mode: "preset"
-
-# OpenAI TTS-1 API configuration, 302.ai API only
-openai_tts:
-  api_key: 'YOUR_302_API_KEY'
-  voice: 'alloy'
-
-# Azure configuration, 302.ai API only
-azure_tts:
-  api_key: 'YOUR_302_API_KEY'
-  voice: 'zh-CN-YunfengNeural'
-
-# FishTTS configuration, 302.ai API only
-fish_tts:
-  api_key: 'YOUR_302_API_KEY'
-  character: 'AD学姐'
-  character_id_dict:
-    'AD学姐': '7f92f8afb8ec43bf81429cc1c9199cb1'
-    '丁真': '54a5170264694bfc8e9ad98df7bd89c3'
-
-# SiliconFlow CosyVoice2 Clone
-sf_cosyvoice2:
-  api_key: 'YOUR_SF_KEY'
-
-# Edge TTS configuration
+# Edge TTS configuration (free, offline)
 edge_tts:
   voice: 'zh-CN-XiaoxiaoNeural'
 
-# SoVITS configuration
+# SoVITS configuration (local TTS)
 gpt_sovits:
   character: 'Huanyuv2'
-  refer_mode: 3
+  refer_mode: 1
 
-f5tts:
-  302_api: 'YOUR_302_API_KEY'
+# IndexTTS configuration
+index_tts:
+  # preset | global | dynamic
+  mode: 'dynamic'
+  # Preset speaker name (for preset mode)
+  speaker: 'voice_01'
+  # IndexTTS API host
+  host: '127.0.0.1'
+  # IndexTTS API port
+  port: '9880'
 
 # *Audio speed range
 speed_factor:

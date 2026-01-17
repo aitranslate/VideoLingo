@@ -18,6 +18,9 @@
   - Removed cloud-based transcription channels (elevenlabs, whisperX_302)
   - Changed audio output format from MP3 to WAV for better quality
   - Simplified installation process with automatic GPU detection
+- **2025-01**: Added **IndexTTS 2.0** integration with 3 modes (preset/global/dynamic)
+  - Removed all API-based TTS services (302.ai, SiliconFlow) for privacy
+  - Now only supports local/offline TTS: Edge TTS, GPT-SoVITS, IndexTTS, Custom TTS
 
 ### Technical Improvements
 - Fixed PyTorch 2.6+ compatibility issues with omegaconf
@@ -44,7 +47,7 @@ Key features:
 
 - **✅ Netflix-standard, Single-line subtitles Only**
 
-- **🗣️ Dubbing with GPT-SoVITS, Azure, OpenAI, and more**
+- **🗣️ Local dubbing with GPT-SoVITS, IndexTTS, Edge TTS**
 
 - 🚀 One-click startup and processing in Streamlit
 
@@ -129,12 +132,12 @@ streamlit run st.py
 ```
 
 ## APIs
-VideoLingo supports OpenAI-Like API format and various TTS interfaces:
-- LLM: `claude-3-5-sonnet`, `gpt-4.1`, `deepseek-v3`, `gemini-2.0-flash`, ... (sorted by performance, be cautious with gemini-2.5-flash...)
-- WhisperX: Run whisperX (large-v3) locally or use 302.ai API
-- TTS: `azure-tts`, `openai-tts`, `siliconflow-fishtts`, **`fish-tts`**, `GPT-SoVITS`, `edge-tts`, `*custom-tts`(You can modify your own TTS in custom_tts.py!)
+VideoLingo supports OpenAI-Like API format and local TTS interfaces:
+- LLM: `claude-3-5-sonnet`, `gpt-4.1`, `deepseek-v3`, `gemini-2.0-flash`, ... (sorted by performance)
+- WhisperX: Run whisperX (large-v3) locally
+- TTS (Local/Offline only): `edge-tts` (free), `GPT-SoVITS` (local cloning), `IndexTTS` (local cloning), `custom-tts` (DIY)
 
-> **Note:** VideoLingo works with **[302.ai](https://gpt302.saaslink.net/C2oHR9)** - one API key for all services (LLM, WhisperX, TTS). Or run locally with Ollama and Edge-TTS for free, no API needed!
+> **Note:** IndexTTS supports 3 modes: **preset** (preset voices), **global** (3-10s reference for all segments), **dynamic** (per-segment reference)
 
 For detailed installation, API configuration, and batch mode instructions, please refer to the documentation: [English](/docs/pages/docs/start.en-US.md) | [中文](/docs/pages/docs/start.zh-CN.md)
 
