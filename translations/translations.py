@@ -2,12 +2,7 @@ import json
 
 DISPLAY_LANGUAGES = {
     "🇬🇧 English": "en",
-    "🇨🇳 简体中文": "zh-CN",
-    "🇭🇰 繁体中文": "zh-HK",
-    "🇯🇵 日本語": "ja",
-    "🇪🇸 Español": "es",
-    "🇷🇺 Русский": "ru",
-    "🇫🇷 Français": "fr",
+    "🇨🇳 简体中文": "zh",
 }
 
 # Load the language file based on user selection
