@@ -11,7 +11,7 @@ _8_1_AUDIO_TASK = "output/audio/tts_tasks.xlsx"
 # Audio files
 _OUTPUT_DIR = "output"
 _AUDIO_DIR = "output/audio"
-_RAW_AUDIO_FILE = "output/audio/raw.mp3"
+_RAW_AUDIO_FILE = "output/audio/raw.wav"
 _VOCAL_AUDIO_FILE = "output/audio/vocal.wav"
 _BACKGROUND_AUDIO_FILE = "output/audio/background.wav"
 _AUDIO_REFERS_DIR = "output/audio/refers"
