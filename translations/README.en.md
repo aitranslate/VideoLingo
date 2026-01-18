@@ -47,7 +47,7 @@ Key features:
 
 - **✅ Netflix-standard, Single-line subtitles Only**
 
-- **🗣️ Local dubbing with GPT-SoVITS, IndexTTS, Edge TTS**
+- **🗣️ Local dubbing with Edge TTS, GPT-SoVITS, IndexTTS, Custom TTS**
 
 - 🚀 One-click startup and processing in Streamlit
 

@@ -7,7 +7,7 @@
 
 ## ======================== Basic Settings ======================== ##
 
-display_language: "zh-CN"
+display_language: "zh"
 
 # API settings
 api:
@@ -22,7 +22,7 @@ max_workers: 4
 target_language: '简体中文'
 
 # Whether to use audio-separator for vocal separation before transcription
-audio_separator: true
+audio_separator: false
 
 whisper:
   # ["large-v3", "large-v3-turbo"]. Note: for zh model will force to use Belle/large-v3
