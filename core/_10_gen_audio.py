@@ -213,9 +213,9 @@ def gen_audio() -> None:
     # 🎯 Step1: Create necessary directories
     os.makedirs(_AUDIO_TMP_DIR, exist_ok=True)
     os.makedirs(_AUDIO_SEGS_DIR, exist_ok=True)
-    
+
     # 📝 Step2: Load task file
-    tasks_df = pd.read_excel(_8_1_AUDIO_TASK)
+    tasks_df = pd.read_csv(_8_1_AUDIO_TASK)
     rprint("[green]📊 Loaded task file successfully[/green]")
     
     # 🔊 Step3: Generate TTS audio
@@ -223,9 +223,9 @@ def gen_audio() -> None:
     
     # 🔄 Step4: Merge audio chunks
     tasks_df = merge_chunks(tasks_df)
-    
+
     # 💾 Step5: Save results
-    tasks_df.to_excel(_8_1_AUDIO_TASK, index=False)
+    tasks_df.to_csv(_8_1_AUDIO_TASK, index=False, encoding='utf-8-sig')
     rprint("[bold green]🎉 Audio generation completed successfully![/bold green]")
 
 if __name__ == "__main__":
