@@ -16,7 +16,7 @@ OUTPUT_FILE_TEMPLATE = f"{_AUDIO_SEGS_DIR}/{{}}.wav"
 
 def load_and_flatten_data(excel_file):
     """Load and flatten Excel data"""
-    df = pd.read_excel(excel_file)
+    df = pd.read_csv(excel_file)
     lines = [eval(line) if isinstance(line, str) else line for line in df['lines'].tolist()]
     lines = [item for sublist in lines for item in sublist]
     
