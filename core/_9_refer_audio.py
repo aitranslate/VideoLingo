@@ -30,9 +30,9 @@ def extract_refer_audio_main():
         return
 
     os.makedirs(_AUDIO_REFERS_DIR, exist_ok=True)
-    
+
     # Read task file and audio data
-    df = pd.read_excel(_8_1_AUDIO_TASK)
+    df = pd.read_csv(_8_1_AUDIO_TASK)
     data, sr = sf.read(_VOCAL_AUDIO_FILE)
     
     with Progress(
