@@ -131,7 +131,7 @@ def process_cutoffs(df):
 
 def gen_dub_chunks():
     rprint("[🎬 Starting] Generating dubbing chunks...")
-    df = pd.read_excel(_8_1_AUDIO_TASK)
+    df = pd.read_csv(_8_1_AUDIO_TASK)
     
     rprint("[📊 Processing] Analyzing timing and speed...")
     df = analyze_subtitle_timing_and_speed(df)
@@ -199,7 +199,7 @@ def gen_dub_chunks():
             raise ValueError("Matching failed")
 
     # Save results
-    df.to_excel(_8_1_AUDIO_TASK, index=False)
+    df.to_csv(_8_1_AUDIO_TASK, index=False, encoding='utf-8-sig')
     rprint("[✅ Complete] Matching completed successfully!")
 
 if __name__ == "__main__":
