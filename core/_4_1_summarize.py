@@ -1,4 +1,3 @@
-import os
 import json
 from core.prompts import get_summary_prompt
 import pandas as pd
@@ -33,22 +32,8 @@ def search_things_to_note_in_prompt(sentence):
 
 def get_summary():
     src_content = combine_chunks()
-    # Read custom_terms.csv with error handling and multiple encoding attempts
-    if os.path.exists(CUSTOM_TERMS_PATH):
-        # Try different encodings (Excel on Windows often saves as GBK/GB2312)
-        encodings = ['utf-8-sig', 'gbk', 'gb2312', 'utf-8']
-        custom_terms = None
-        for enc in encodings:
-            try:
-                custom_terms = pd.read_csv(CUSTOM_TERMS_PATH, encoding=enc)
-                break
-            except (UnicodeDecodeError, UnicodeError):
-                continue
-        if custom_terms is None:
-            # All encodings failed, create empty DataFrame
-            custom_terms = pd.DataFrame(columns=['Source', 'Trans', 'Note'])
-    else:
-        custom_terms = pd.DataFrame(columns=['Source', 'Trans', 'Note'])
+    # Read custom_terms.csv using safe CSV reader (handles multiple encodings)
+    custom_terms = safe_read_csv(CUSTOM_TERMS_PATH)
 
     custom_terms_json = {
         "terms":
