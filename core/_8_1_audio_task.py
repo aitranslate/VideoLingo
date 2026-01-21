@@ -136,7 +136,7 @@ def process_srt():
 def gen_audio_task_main():
     df = process_srt()
     console.print(df)
-    df.to_excel(_8_1_AUDIO_TASK, index=False)
+    df.to_csv(_8_1_AUDIO_TASK, index=False, encoding='utf-8-sig')
     rprint(Panel(f"Successfully generated {_8_1_AUDIO_TASK}", title="Success", border_style="green"))
 
 if __name__ == '__main__':
