@@ -33,9 +33,20 @@ def search_things_to_note_in_prompt(sentence):
 
 def get_summary():
     src_content = combine_chunks()
-    # Read custom_terms.csv with error handling
+    # Read custom_terms.csv with error handling and multiple encoding attempts
     if os.path.exists(CUSTOM_TERMS_PATH):
-        custom_terms = pd.read_csv(CUSTOM_TERMS_PATH, encoding='utf-8-sig')
+        # Try different encodings (Excel on Windows often saves as GBK/GB2312)
+        encodings = ['utf-8-sig', 'gbk', 'gb2312', 'utf-8']
+        custom_terms = None
+        for enc in encodings:
+            try:
+                custom_terms = pd.read_csv(CUSTOM_TERMS_PATH, encoding=enc)
+                break
+            except (UnicodeDecodeError, UnicodeError):
+                continue
+        if custom_terms is None:
+            # All encodings failed, create empty DataFrame
+            custom_terms = pd.DataFrame(columns=['Source', 'Trans', 'Note'])
     else:
         custom_terms = pd.DataFrame(columns=['Source', 'Trans', 'Note'])
 
@@ -48,7 +59,7 @@ def get_summary():
                     "note": str(row['Note']) if pd.notna(row['Note']) else ''
                 }
                 for _, row in custom_terms.iterrows()
-                if pd.notna(row['Source']) and row['Source'].strip()
+                if pd.notna(row['Source']) and str(row['Source']).strip()
             ]
     }
     if len(custom_terms) > 0:
