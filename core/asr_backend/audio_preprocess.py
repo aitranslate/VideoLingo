@@ -152,8 +152,8 @@ def save_results(df: pd.DataFrame):
         df = df[df['text'].str.len() <= 30]
     
     df['text'] = df['text'].apply(lambda x: f'"{x}"')
-    df.to_excel(_2_CLEANED_CHUNKS, index=False)
-    rprint(f"[green]📊 Excel file saved to {_2_CLEANED_CHUNKS}[/green]")
+    df.to_csv(_2_CLEANED_CHUNKS, index=False, encoding='utf-8-sig')
+    rprint(f"[green]📊 CSV file saved to {_2_CLEANED_CHUNKS}[/green]")
 
 def save_language(language: str):
     update_key("whisper.detected_language", language)
