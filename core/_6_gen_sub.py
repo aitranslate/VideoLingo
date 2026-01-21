@@ -148,16 +148,16 @@ def clean_translation(x):
     return autocorrect.format(cleaned)
 
 def align_timestamp_main():
-    df_text = pd.read_excel(_2_CLEANED_CHUNKS)
+    df_text = pd.read_csv(_2_CLEANED_CHUNKS)
     df_text['text'] = df_text['text'].str.strip('"').str.strip()
-    df_translate = pd.read_excel(_5_SPLIT_SUB)
+    df_translate = pd.read_csv(_5_SPLIT_SUB)
     df_translate['Translation'] = df_translate['Translation'].apply(clean_translation)
-    
+
     align_timestamp(df_text, df_translate, SUBTITLE_OUTPUT_CONFIGS, _OUTPUT_DIR)
     console.print(Panel("[bold green]🎉📝 Subtitles generation completed! Please check in the `output` folder 👀[/bold green]"))
 
     # for audio
-    df_translate_for_audio = pd.read_excel(_5_REMERGED) # use remerged file to avoid unmatched lines when dubbing
+    df_translate_for_audio = pd.read_csv(_5_REMERGED) # use remerged file to avoid unmatched lines when dubbing
     df_translate_for_audio['Translation'] = df_translate_for_audio['Translation'].apply(clean_translation)
     
     align_timestamp(df_text, df_translate_for_audio, AUDIO_SUBTITLE_OUTPUT_CONFIGS, _AUDIO_DIR)
