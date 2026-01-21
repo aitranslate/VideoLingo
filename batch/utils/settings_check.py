@@ -4,7 +4,7 @@ from rich.console import Console
 from rich.panel import Panel
 
 # Constants
-SETTINGS_FILE = 'batch/tasks_setting.xlsx'
+SETTINGS_FILE = 'batch/tasks_setting.csv'
 INPUT_FOLDER = os.path.join('batch', 'input')
 VALID_DUBBING_VALUES = [0, 1]
 
@@ -12,7 +12,7 @@ console = Console()
 
 def check_settings():
     os.makedirs(INPUT_FOLDER, exist_ok=True)
-    df = pd.read_excel(SETTINGS_FILE)
+    df = pd.read_csv(SETTINGS_FILE)
     input_files = set(os.listdir(INPUT_FOLDER))
     excel_files = set(df['Video File'].tolist())
     files_not_in_excel = input_files - excel_files
