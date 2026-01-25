@@ -15,20 +15,16 @@
 ## 📝 我的修改与优化
 
 ### 最近更新
-- **2025-01**: 使用 `audio-separator[gpu]==0.41.0` 替代 `demucs` 以实现更好的人声分离
-  - 更新所有依赖到最新版本（PyTorch 2.8.0、WhisperX 等）
+**2025-01**
+  - 使用 [`audio-separator`](https://github.com/nomadkaraoke/python-audio-separator) 替代 `demucs` 以实现更好的人声分离
+  - 升级依赖版本（PyTorch 2.8.0、WhisperX 等），修复了安装过程 "Building whell for av..." 报错
   - 移除基于云端的转录渠道（elevenlabs、whisperX_302）
   - 将音频输出格式从 MP3 改为 WAV 以获得更高质量
-  - 简化安装流程，支持自动 GPU 检测
-- **2025-01**: 添加 **IndexTTS 2.0** 集成，支持 3 种模式（preset/global/dynamic）
-  - 移除所有基于 API 的 TTS 服务（302.ai、SiliconFlow）以保护隐私
-  - 现在仅支持本地/离线 TTS：Edge TTS、GPT-SoVITS、IndexTTS、Custom TTS
-
-### 技术改进
-- 修复 PyTorch 2.6+ 与 omegaconf 的兼容性问题
-- 使用 audio-separator 的 Kim_Vocal_2.onnx 模型优化音频处理流程
-- 清理不必要的文件和代码
-- 更新翻译和配置
+  - 将所有 Excel 文件迁移为 CSV 格式
+  - 更好的跨平台兼容性，无需安装 openpyxl
+  - 添加 **IndexTTS 2.0** 集成，支持 3 种模式（preset/global/dynamic）
+  - 移除所有基于 API 的 TTS 服务（302.ai、SiliconFlow）
+  - 现在仅支持本地（自定义）TTS：Edge TTS、GPT-SoVITS、IndexTTS、Custom TTS
 
 ---
 
