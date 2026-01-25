@@ -154,6 +154,3 @@ def save_results(df: pd.DataFrame):
     df['text'] = df['text'].apply(lambda x: f'"{x}"')
     df.to_csv(_2_CLEANED_CHUNKS, index=False, encoding='utf-8-sig')
     rprint(f"[green]📊 CSV file saved to {_2_CLEANED_CHUNKS}[/green]")
-
-def save_language(language: str):
-    update_key("whisper.detected_language", language)

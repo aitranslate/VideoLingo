@@ -22,19 +22,18 @@ max_workers: 4
 target_language: '简体中文'
 
 # Whether to use audio-separator for vocal separation before transcription
-audio_separator: false
+audio_separator: true
 
 whisper:
   # ["medium", "medium.en", "large-v2", "large-v3", "Purfview/faster-distil-whisper-large-v3.5"]. Note: for zh model will force to use Belle/large-v3
   model: 'large-v3'
   # Whisper specified recognition language ISO 639-1
   language: 'en'
-  detected_language: 'en'
   # Use local whisperX model for transcription
   runtime: 'local'
 
 # Whether to burn subtitles into the video
-burn_subtitles: false
+burn_subtitles: true
 
 ## ======================== Advanced Settings ======================== ##
 # *🔬 h264_nvenc GPU acceleration for ffmpeg, make sure your GPU supports it

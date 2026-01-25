@@ -30,8 +30,7 @@ def split_long_sentence(doc):
     # rebuild sentences based on optimal split points
     sentences = []
     i = n
-    whisper_language = load_key("whisper.language")
-    language = load_key("whisper.detected_language") if whisper_language == 'auto' else whisper_language # consider force english case
+    language = load_key("whisper.language")
     joiner = get_joiner(language)
     while i > 0:
         j = prev[i]
@@ -47,10 +46,9 @@ def split_extremely_long_sentence(doc):
     num_parts = (n + 59) // 60  # round up
     
     part_length = n // num_parts
-    
+
     sentences = []
-    whisper_language = load_key("whisper.language")
-    language = load_key("whisper.detected_language") if whisper_language == 'auto' else whisper_language # consider force english case
+    language = load_key("whisper.language")
     joiner = get_joiner(language)
     for i in range(num_parts):
         start = i * part_length

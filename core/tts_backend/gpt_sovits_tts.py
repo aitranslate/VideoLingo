@@ -62,7 +62,7 @@ def gpt_sovits_tts_for_videolingo(text, save_as, number, task_df):
     REFER_MODE = sovits_set["refer_mode"]
 
     current_dir = Path.cwd()
-    prompt_lang = load_key("whisper.detected_language") if WHISPER_LANGUAGE == 'auto' else WHISPER_LANGUAGE
+    prompt_lang = WHISPER_LANGUAGE
     prompt_text = task_df.loc[task_df['number'] == number, 'origin'].values[0]
 
     if REFER_MODE == 1:

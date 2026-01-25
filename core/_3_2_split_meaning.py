@@ -17,8 +17,7 @@ def find_split_positions(original, modified):
     split_positions = []
     parts = modified.split('[br]')
     start = 0
-    whisper_language = load_key("whisper.language")
-    language = load_key("whisper.detected_language") if whisper_language == 'auto' else whisper_language
+    language = load_key("whisper.language")
     joiner = get_joiner(language)
 
     for i in range(len(parts) - 1):

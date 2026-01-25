@@ -8,8 +8,7 @@ from rich import print as rprint
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 def split_by_mark(nlp):
-    whisper_language = load_key("whisper.language")
-    language = load_key("whisper.detected_language") if whisper_language == 'auto' else whisper_language # consider force english case
+    language = load_key("whisper.language")
     joiner = get_joiner(language)
     rprint(f"[blue]🔍 Using {language} language joiner: '{joiner}'[/blue]")
     chunks = pd.read_csv("output/log/cleaned_chunks.csv")

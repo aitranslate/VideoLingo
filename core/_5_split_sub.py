@@ -43,9 +43,8 @@ def align_subs(src_sub: str, tr_sub: str, src_part: str) -> Tuple[List[str], Lis
     align_data = parsed['align']
     src_parts = src_part.split('\n')
     tr_parts = [item[f'target_part_{i+1}'].strip() for i, item in enumerate(align_data)]
-    
-    whisper_language = load_key("whisper.language")
-    language = load_key("whisper.detected_language") if whisper_language == 'auto' else whisper_language
+
+    language = load_key("whisper.language")
     joiner = get_joiner(language)
     tr_remerged = joiner.join(tr_parts)
     
