@@ -4,24 +4,24 @@ import torch
 import os
 import tempfile
 import threading
-import io # 导入 io 模块
+import io  # Import io module
 from datetime import datetime
 import time
 
 app = Flask(__name__)
 
-# 初始化TTS模型
-# 注意：确保 'checkpoints' 目录和 'checkpoints/2.0/config.yaml' 文件存在
+# Initialize TTS model
+# Note: Ensure 'checkpoints' directory and 'checkpoints/2.0/config.yaml' file exist
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
 
-# 使用IndexTTS2模型，支持更多参数
+# Use IndexTTS2 model with more parameters
 tts = IndexTTS2(cfg_path="checkpoints/2.0/config.yaml", model_dir="checkpoints/2.0", use_fp16=True, use_cuda_kernel=True, use_deepspeed=False)
 
-# 添加线程锁（保留，确保 CUDA 推理按顺序串行处理）
+# Add thread lock (kept to ensure CUDA inference processes serially in order)
 tts_lock = threading.Lock()
 
-# 移除 cleanup_file 和 cleanup_temp_files 函数及相关全局变量
+# Removed cleanup_file and cleanup_temp_files functions and related global variables
 
 @app.route('/', methods=['GET', 'POST'])
 def tts_endpoint():
@@ -40,13 +40,13 @@ def tts_endpoint():
     - use_random: Enable random sampling (0/1 or true/false, optional, defaults to false)
     - interval_silence: Silence interval between segments in milliseconds (optional)
     """
-    # 支持GET请求参数获取 (URL查询参数)
+    # Support GET request parameter retrieval (URL query parameters)
     text = request.args.get('text', '')
     speaker = request.args.get('speaker', 'voice_01.wav')
     ref_voice = request.args.get('ref_voice', '')
     output_format = request.args.get('output_format', 'wav')
 
-    # IndexTTS2特有参数
+    # IndexTTS2 specific parameters
     emo_audio_prompt = request.args.get('emo_audio_prompt', '')
     emo_alpha = request.args.get('emo_alpha', '1.0')
     emo_vector = request.args.get('emo_vector', '')
@@ -55,17 +55,17 @@ def tts_endpoint():
     use_random = request.args.get('use_random', 'false')
     interval_silence = request.args.get('interval_silence', '200')
 
-    # 支持POST请求参数获取 (form或JSON数据)
+    # Support POST request parameter retrieval (form or JSON data)
     if request.method == 'POST':
-        if not text:  # 如果GET参数为空，尝试从POST数据获取
+        if not text:  # If GET parameters are empty, try to get from POST data
             if request.is_json:
                 json_data = request.get_json()
                 text = json_data.get('text', '') if json_data else ''
                 speaker = json_data.get('speaker', 'voice_01.wav') if json_data else 'voice_01.wav'
                 ref_voice = json_data.get('ref_voice', '') if json_data else ''
                 output_format = json_data.get('output_format', 'wav') if json_data else 'wav'
-                
-                # IndexTTS2特有参数
+
+                # IndexTTS2 specific parameters
                 emo_audio_prompt = json_data.get('emo_audio_prompt', '') if json_data else ''
                 emo_alpha = json_data.get('emo_alpha', '1.0') if json_data else '1.0'
                 emo_vector = json_data.get('emo_vector', '') if json_data else ''
@@ -78,8 +78,8 @@ def tts_endpoint():
                 speaker = request.form.get('speaker', 'voice_01.wav')
                 ref_voice = request.form.get('ref_voice', '')
                 output_format = request.form.get('output_format', 'wav')
-                
-                # IndexTTS2特有参数
+
+                # IndexTTS2 specific parameters
                 emo_audio_prompt = request.form.get('emo_audio_prompt', '')
                 emo_alpha = request.form.get('emo_alpha', '1.0')
                 emo_vector = request.form.get('emo_vector', '')
@@ -91,10 +91,10 @@ def tts_endpoint():
     if not text:
         return jsonify({"error": "Text parameter is required"}), 400
 
-    # 记录开始时间
+    # Record start time
     start_time = time.time()
 
-    # 构建声音文件路径：ref_voice 优先，否则用 speaker
+    # Build voice file path: ref_voice takes priority, otherwise use speaker
     if ref_voice:
         voice_path = ref_voice
     else:
@@ -102,11 +102,11 @@ def tts_endpoint():
         if not voice_path.endswith('.wav'):
             voice_path += ".wav"
 
-    # 检查声音文件是否存在
+    # Check if voice file exists
     if not os.path.exists(voice_path):
         return jsonify({"error": f"Speaker file does not exist: {voice_path}"}), 400
 
-    # 处理情绪音频路径
+    # Handle emotion audio path
     emo_audio_path = None
     if emo_audio_prompt:
         emo_audio_path = f"./voices/{emo_audio_prompt}"
@@ -115,7 +115,7 @@ def tts_endpoint():
         if not os.path.exists(emo_audio_path):
             return jsonify({"error": f"Emotion audio file does not exist: {emo_audio_path}"}), 400
 
-    # 处理情绪向量
+    # Handle emotion vector
     emo_vector_list = None
     if emo_vector:
         try:
@@ -125,7 +125,7 @@ def tts_endpoint():
         except ValueError:
             return jsonify({"error": "Emotion vector must contain valid float numbers separated by commas"}), 400
 
-    # 处理布尔参数
+    # Handle boolean parameters
     try:
         use_emo_text_bool = use_emo_text.lower() in ['true', '1', 'yes', 'on']
         use_random_bool = use_random.lower() in ['true', '1', 'yes', 'on']
@@ -133,7 +133,7 @@ def tts_endpoint():
     except ValueError:
         return jsonify({"error": "Invalid value for emo_alpha, use_emo_text, or use_random"}), 400
 
-    # 处理interval_silence参数
+    # Handle interval_silence parameter
     try:
         interval_silence_int = int(interval_silence)
     except ValueError:
@@ -141,14 +141,14 @@ def tts_endpoint():
 
     output_path = None
 
-    # 加锁确保同一时间只有一个TTS请求在处理
+    # Acquire lock to ensure only one TTS request is processed at a time
     with tts_lock:
         try:
-            # 1. 创建临时文件并获取路径
+            # 1. Create temporary file and get path
             with tempfile.NamedTemporaryFile(delete=False, suffix='.wav') as tmp_file:
                 output_path = tmp_file.name
 
-            # 2. 执行 TTS 推理
+            # 2. Execute TTS inference
             tts.infer(
                 spk_audio_prompt=voice_path,
                 text=text,
@@ -162,18 +162,18 @@ def tts_endpoint():
                 interval_silence=interval_silence_int
             )
 
-            # 3. 读取文件内容到内存
+            # 3. Read file content into memory
             with open(output_path, 'rb') as f:
-                # 使用 BytesIO 存储音频数据
+                # Use BytesIO to store audio data
                 audio_data = io.BytesIO(f.read())
 
-            # 4. 文件内容已在内存，立即安全删除磁盘文件
+            # 4. File content is in memory, safely delete disk file immediately
             os.remove(output_path)
-            # 清空 output_path，防止 finally 块尝试删除已删除的文件
+            # Clear output_path to prevent finally block from trying to delete already deleted file
             output_path = None
 
-            # 5. 从内存数据流发送响应
-            # mimetype 设置为 audio/wav
+            # 5. Send response from memory data stream
+            # mimetype set to audio/wav
             response = send_file(
                 audio_data,
                 mimetype=f'audio/{output_format}',
@@ -181,26 +181,26 @@ def tts_endpoint():
                 download_name=f"output.{output_format}"
             )
 
-            # 计算总耗时
+            # Calculate total time
             total_time = time.time() - start_time
             ref_info = ref_voice if ref_voice else speaker
-            print(f"TTS2请求处理完成 - 参考音频: {ref_info}, 总耗时: {total_time:.2f}秒")
+            print(f"TTS2 request completed - Reference audio: {ref_info}, Total time: {total_time:.2f}s")
 
             return response
 
         except Exception as e:
-            # 发生错误时返回 500
+            # Return 500 on error
             total_time = time.time() - start_time
-            print(f"TTS2生成失败 - 错误: {str(e)}, 总耗时: {total_time:.2f}秒")
+            print(f"TTS2 generation failed - Error: {str(e)}, Total time: {total_time:.2f}s")
             return jsonify({"error": f"TTS2 generation failed: {str(e)}"}), 500
 
         finally:
-            # 6. 确保即使在读取/删除前失败，临时文件也被清理
+            # 6. Ensure temp file is cleaned up even if read/delete fails
             if output_path and os.path.exists(output_path):
                 try:
                     os.remove(output_path)
                 except Exception as e:
-                    # 打印错误，通常发生在推理失败或权限问题时
+                    # Print error, usually occurs when inference fails or permission issues
                     print(f"Failed to cleanup failed temp file {output_path}: {e}")
 
 
@@ -217,6 +217,6 @@ def health_check():
 if __name__ == '__main__':
     print("Starting IndexTTS2 API server...")
     print(f"Model loaded on device: {device}")
-    # 保持 debug=False, threaded=True，但请注意，threaded=True 配合 tts_lock
-    # 意味着 Flask 可以并行接收请求，但推理核心是串行的。
+    # Keep debug=False, threaded=True, but note that threaded=True with tts_lock
+    # means Flask can receive requests in parallel, but the inference core is serial.
     app.run(host='0.0.0.0', port=9880, debug=False, threaded=True)

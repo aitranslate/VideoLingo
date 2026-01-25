@@ -111,19 +111,14 @@ def estimate_duration(text: str, estimator: AdvancedSyllableEstimator):
         return 0
     return estimator.process_mixed_text(text)['estimated_duration']
 
-# 使用示例
+# Usage example
 if __name__ == "__main__":
     estimator = init_estimator()
     print(estimate_duration('你好', estimator))
 
-    # 测试用例
+    # Test cases
     test_cases = [
-        # "Hello world this is a test",  # 纯英文
-        # "你好世界 这是一个测试",      # 中文带空格
-        # "Hello 你好 world 世界",      # 中英混合
-        # "The weather is nice 所以我们去公园",  # 中英混合带空格
-        # "我们需要在输出中体现空格的停顿时间",
-        # "I couldn't help but notice the vibrant colors of the autumn leaves cascading gently from the trees"
+        # "Hello world this is a test",  # English only
         "가을 나뭇잎이 부드럽게 떨어지는 생생한 색깔을 주목하지 않을 수 없었다"
     ]
     

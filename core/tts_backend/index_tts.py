@@ -8,7 +8,7 @@ from pydub import AudioSegment
 from core.utils import *
 from core.utils.models import *
 
-# IndexTTS2 API 配置
+# IndexTTS2 API configuration
 try:
     INDEXTTS_HOST = load_key("index_tts.host")
 except KeyError:
@@ -21,12 +21,12 @@ except KeyError:
 
 INDEXTTS_API_URL = f"http://{INDEXTTS_HOST}:{INDEXTTS_PORT}"
 
-# 全局缓存：找到的最佳参考音频 URL
+# Global cache: best reference audio URL found
 _CACHED_REF_AUDIO = None
 
 
 def check_index_tts_server():
-    """检查 IndexTTS 服务器是否运行"""
+    """Check if IndexTTS server is running"""
     try:
         response = requests.get(f"{INDEXTTS_API_URL}/health", timeout=5)
         return response.status_code == 200
@@ -35,7 +35,7 @@ def check_index_tts_server():
 
 
 def ensure_index_tts_server():
-    """确保 IndexTTS 服务器正在运行"""
+    """Ensure IndexTTS server is running"""
     if check_index_tts_server():
         rprint("[green]✅ IndexTTS server is running[/green]")
         return True
@@ -46,7 +46,7 @@ def ensure_index_tts_server():
     rprint("[yellow]Example command to start:[/yellow]")
     rprint("[cyan]python your_indextts_api.py[/cyan]")
 
-    # 询问用户是否已手动启动服务器
+    # Ask user if server has been manually started
     from InquirerPy import inquirer
     from translations.translations import translate as t
 
@@ -64,21 +64,21 @@ def ensure_index_tts_server():
 @except_handler("Failed to generate audio using IndexTTS", retry=2, delay=1)
 def index_tts(text: str, save_path: str, speaker: str = None, ref_voice: str = None) -> bool:
     """
-    调用 IndexTTS API 生成语音
+    Call IndexTTS API to generate speech
 
     Args:
-        text: 要转换的文本
-        save_path: 保存路径
-        speaker: 预设音色名称 (如 "voice_01")
-        ref_voice: 自定义参考音频完整路径
+        text: Text to convert
+        save_path: Save path
+        speaker: Preset speaker name (e.g. "voice_01")
+        ref_voice: Custom reference audio full path
 
     Returns:
-        bool: 成功返回 True
+        bool: True on success
     """
     params = {"text": text}
 
     if ref_voice:
-        # 转换为绝对路径
+        # Convert to absolute path
         ref_voice_abs = str(Path(ref_voice).resolve())
         params["ref_voice"] = ref_voice_abs
         rprint(f"[cyan]🎤 Using custom reference audio:[/cyan] {ref_voice_abs}")
@@ -88,7 +88,7 @@ def index_tts(text: str, save_path: str, speaker: str = None, ref_voice: str = N
     else:
         raise ValueError("Either 'speaker' or 'ref_voice' must be provided")
 
-    # 调用 IndexTTS API
+    # Call IndexTTS API
     response = requests.get(
         INDEXTTS_API_URL,
         params=params,
@@ -96,11 +96,11 @@ def index_tts(text: str, save_path: str, speaker: str = None, ref_voice: str = N
     )
 
     if response.status_code == 200:
-        # 确保目录存在
+        # Ensure directory exists
         save_path_obj = Path(save_path)
         save_path_obj.parent.mkdir(parents=True, exist_ok=True)
 
-        # 保存音频文件
+        # Save audio file
         with open(save_path, 'wb') as f:
             f.write(response.content)
 
@@ -113,20 +113,20 @@ def index_tts(text: str, save_path: str, speaker: str = None, ref_voice: str = N
 
 def find_best_ref_audio(task_df, min_duration=3.0, max_duration=10.0):
     """
-    找到最佳参考音频 (3-10秒)
+    Find best reference audio (3-10s)
 
     Args:
-        task_df: 任务数据框
-        min_duration: 最小时长 (秒)
-        max_duration: 最大时长 (秒)
+        task_df: Task dataframe
+        min_duration: Minimum duration (seconds)
+        max_duration: Maximum duration (seconds)
 
     Returns:
-        str: 参考音频路径，找不到返回 None
+        str: Reference audio path, None if not found
     """
     rprint(f"[blue]🎯 Looking for best reference audio ({min_duration}s-{max_duration}s)...[/blue]")
 
-    # 按优先级查找：先找单段符合的，再找合并后符合的
-    # 1. 优先找单个符合 3-10 秒的片段
+    # Search by priority: first find single matching segments, then combined ones
+    # 1. First look for single segments matching 3-10s
     for _, row in task_df.iterrows():
         duration = row['duration']
         if min_duration <= duration <= max_duration:
@@ -135,7 +135,7 @@ def find_best_ref_audio(task_df, min_duration=3.0, max_duration=10.0):
                 rprint(f"[green]✅ Found single segment: {row['number']}.wav ({duration:.2f}s)[/green]")
                 return ref_path
 
-    # 2. 没有单段符合的，合并多段
+    # 2. No single segment matches, combine multiple segments
     rprint(f"[yellow]⏭️ No single segment found, combining multiple segments...[/yellow]")
 
     combined = AudioSegment.empty()
@@ -162,7 +162,7 @@ def find_best_ref_audio(task_df, min_duration=3.0, max_duration=10.0):
         rprint(f"[red]❌ Could not reach minimum duration {min_duration}s (got {total_duration:.2f}s)[/red]")
         return None
 
-    # 保存合并的参考音频
+    # Save combined reference audio
     combined_ref = f"{_AUDIO_REFERS_DIR}/index_tts_refer.wav"
     combined.export(combined_ref, format="wav")
     rprint(f"[green]✅ Created combined reference: {len(selected_files)} segments, {total_duration:.2f}s[/green]")
@@ -172,13 +172,13 @@ def find_best_ref_audio(task_df, min_duration=3.0, max_duration=10.0):
 
 def index_tts_for_videolingo(text: str, save_as: str, number: int, task_df):
     """
-    VideoLingo 集成的 IndexTTS 入口函数
+    VideoLingo integrated IndexTTS entry function
 
     Args:
-        text: 翻译后的文本
-        save_as: 保存路径
-        number: 当前片段编号
-        task_df: 任务数据框
+        text: Translated text
+        save_as: Save path
+        number: Current segment number
+        task_df: Task dataframe
     """
     global _CACHED_REF_AUDIO
     ensure_index_tts_server()
@@ -189,7 +189,7 @@ def index_tts_for_videolingo(text: str, save_as: str, number: int, task_df):
         mode = "preset"
 
     if mode == "preset":
-        # 使用预设音色
+        # Use preset speaker
         try:
             speaker = load_key("index_tts.speaker")
         except KeyError:
@@ -197,7 +197,7 @@ def index_tts_for_videolingo(text: str, save_as: str, number: int, task_df):
         index_tts(text=text, save_path=save_as, speaker=speaker)
 
     elif mode == "global":
-        # 全局统一参考音频
+        # Global unified reference audio
         if _CACHED_REF_AUDIO is None:
             ref_audio = find_best_ref_audio(task_df)
             if ref_audio is None:
@@ -208,7 +208,7 @@ def index_tts_for_videolingo(text: str, save_as: str, number: int, task_df):
         index_tts(text=text, save_path=save_as, ref_voice=_CACHED_REF_AUDIO)
 
     elif mode == "dynamic":
-        # 每段独立参考音频
+        # Independent reference audio for each segment
         ref_audio_path = f"{_AUDIO_REFERS_DIR}/{number}.wav"
 
         if not Path(ref_audio_path).exists():
@@ -222,12 +222,12 @@ def index_tts_for_videolingo(text: str, save_as: str, number: int, task_df):
 
 
 if __name__ == "__main__":
-    # 测试代码
+    # Test code
     print("Testing IndexTTS...")
 
-    # 测试 preset 模式
+    # Test preset mode
     test_text = "Hello, this is a test of IndexTTS."
     index_tts(test_text, "test_preset.wav", speaker="voice_01")
 
-    # 测试 dynamic 模式 (如果有参考音频)
+    # Test dynamic mode (if reference audio is available)
     # index_tts(test_text, "test_dynamic.wav", ref_voice="path/to/reference.wav")

@@ -47,7 +47,7 @@ def get_audio_duration(audio_file: str) -> float:
     return duration
 
 def split_audio(audio_file: str, target_len: float = 30*60, win: float = 60) -> List[Tuple[float, float]]:
-    ## 在 [target_len-win, target_len+win] 区间内用 pydub 检测静默，切分音频
+    ## Detect silence in [target_len-win, target_len+win] range using pydub, split audio
     rprint(f"[blue]🎙️ Starting audio segmentation {audio_file} {target_len} {win}[/blue]")
     audio = AudioSegment.from_file(audio_file)
     duration = float(mediainfo(audio_file)["duration"])
@@ -61,20 +61,20 @@ def split_audio(audio_file: str, target_len: float = 30*60, win: float = 60) -> 
 
         threshold = pos + target_len
         ws, we = int((threshold - win) * 1000), int((threshold + win) * 1000)
-        
-        # 获取完整的静默区域
+
+        # Get complete silence regions
         silence_regions = detect_silence(audio[ws:we], min_silence_len=500, silence_thresh=-40)
         silence_regions = [(s/1000 + (threshold - win), e/1000 + (threshold - win)) for s, e in silence_regions]
-        # 筛选长度足够（至少0.5秒）且位置适合的静默区域
+        # Filter silence regions with sufficient length (at least 0.5s) and suitable position
         valid_regions = [
             (start, end) for start, end in silence_regions
             if (end - start) >= 0.5 and threshold - win <= (start + end) / 2 <= threshold + win
         ]
 
         if valid_regions:
-            # 选最接近 threshold 的静音片段
+            # Select silence segment closest to threshold
             start, end = min(valid_regions, key=lambda r: abs((r[0] + r[1]) / 2 - threshold))
-            split_at = (start + end) / 2  # 在静音正中间切分
+            split_at = (start + end) / 2  # Split in the middle of silence
         else:
             rprint(f"[yellow]⚠️ No valid silence regions found for {audio_file} at {threshold}s, using threshold[/yellow]")
             split_at = threshold

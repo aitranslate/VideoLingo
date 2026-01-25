@@ -30,7 +30,7 @@ whisper:
   # Whisper specified recognition language ISO 639-1
   language: 'en'
   detected_language: 'en'
-  # 使用本地 whisperX 模型进行转录
+  # Use local whisperX model for transcription
   runtime: 'local'
 
 # Whether to burn subtitles into the video
