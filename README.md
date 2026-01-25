@@ -22,7 +22,7 @@
   - 将音频输出格式从 MP3 改为 WAV 以获得更高质量
   - 将所有 Excel 文件迁移为 CSV 格式
   - 更好的跨平台兼容性，无需安装 openpyxl
-  - 添加 **IndexTTS 2.0** 集成，支持 3 种模式（preset/global/dynamic）
+  - 添加 [**IndexTTS 2.0**](https://github.com/index-tts/index-tts) 集成，支持 3 种模式（preset/global/dynamic）
   - 移除所有基于 API 的 TTS 服务（302.ai、SiliconFlow）
   - 现在仅支持本地（自定义）TTS：Edge TTS、GPT-SoVITS、IndexTTS、Custom TTS
 
