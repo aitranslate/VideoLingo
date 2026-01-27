@@ -10,7 +10,7 @@ from rich.console import Console
 
 console = Console()
 
-VOCAL_MODEL = "Kim_Vocal_2.onnx"
+VOCAL_MODEL = "UVR-MDX-NET-Inst_HQ_3.onnx"
 MODEL_DIR = load_key("model_dir")
 
 
@@ -22,7 +22,7 @@ def separate_vocals_and_background(input_file=None, vocal_output=None, backgroun
         input_file: Input audio file path (default: RAW_AUDIO_FILE from config)
         vocal_output: Vocal output file path (default: output/audio/vocal.wav)
         background_output: Background output file path (default: output/audio/background.wav)
-        model_name: Separation model name (default: Kim_Vocal_2.onnx)
+        model_name: Separation model name (default: UVR-MDX-NET-Inst_HQ_3.onnx)
 
     Returns:
         bool: True if successful, False otherwise

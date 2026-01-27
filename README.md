@@ -16,7 +16,7 @@
 
 ### 最近更新
 **2025-01**
-  - 使用 [`audio-separator`](https://github.com/nomadkaraoke/python-audio-separator) 替代 `demucs` 以实现更好的人声分离
+  - 使用 [`audio-separator`](https://github.com/nomadkaraoke/python-audio-separator) 替代 `demucs` 以实现更好的人声分离（采用 UVR-MDX-NET-Inst_HQ_3 模型）
   - 升级依赖版本（PyTorch 2.8.0、WhisperX 等），修复了安装过程 "Building whell for av..." 报错
   - 移除基于云端的转录渠道（elevenlabs、whisperX_302）
   - 将音频输出格式从 MP3 改为 WAV 以获得更高质量
