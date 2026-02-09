@@ -70,7 +70,15 @@ def transcribe_audio(raw_audio_file, vocal_audio_file, start, end):
         rprint(f"[green]📥 Using WHISPER model from HuggingFace:[/green] {model_name} ...")
 
     vad_options = {"vad_onset": 0.500,"vad_offset": 0.363}
+
+    # Load hotwords from config if enabled
+    hotwords_enabled = load_key("whisper.hotwords_enabled")
+    hotwords_list = load_key("whisper.hotwords") if hotwords_enabled else ""
     asr_options = {"temperatures": [0],"initial_prompt": "",}
+    if hotwords_enabled and hotwords_list:
+        asr_options["hotwords"] = hotwords_list
+        rprint(f"[cyan]🏷️ Hotwords enabled:[/cyan] {hotwords_list}")
+
     whisper_language = None if 'auto' in WHISPER_LANGUAGE else WHISPER_LANGUAGE
     rprint("[bold yellow] You can ignore warning of `Model was trained with torch 1.10.0+cu102, yours is 2.0.0+cu118...`[/bold yellow]")
     model = whisperx.load_model(model_name, device, compute_type=compute_type, language=whisper_language, vad_options=vad_options, asr_options=asr_options, download_root=MODEL_DIR)

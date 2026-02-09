@@ -110,6 +110,10 @@
     "No NVIDIA GPU detected": "未检测到NVIDIA GPU",
     "No NVIDIA GPU detected or NVIDIA drivers not properly installed": "未检测到NVIDIA GPU或NVIDIA驱动未正确安装",
     "LLM JSON Format Support": "LLM JSON格式支持",
-    "Enable if your LLM supports JSON mode output": "如果选用的LLM支持JSON模式输出，请启用"
+    "Enable if your LLM supports JSON mode output": "如果选用的LLM支持JSON模式输出，请启用",
+    "Enable Hotwords": "启用术语",
+    "Enable hotwords for better recognition of specific terms": "启用术语功能以更好地识别特定词汇",
+    "Hotwords": "术语列表",
+    "Comma-separated list of hotwords (e.g., API, HTTP, SQL, Python, GitHub)": "逗号分隔的术语列表（例如：API, HTTP, SQL, Python, GitHub）"
 }
 

@@ -31,6 +31,10 @@ whisper:
   language: 'en'
   # Use local whisperX model for transcription
   runtime: 'local'
+  # Enable hotwords for better recognition of specific terms
+  hotwords_enabled: false
+  # Comma-separated list of hotwords (e.g., "API, HTTP, SQL, Python, GitHub")
+  hotwords: 'API, HTTP, SQL, Python, GitHub'
 
 # Whether to burn subtitles into the video
 burn_subtitles: true

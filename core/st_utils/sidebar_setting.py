@@ -64,6 +64,17 @@ def page_setting():
             update_key("whisper.runtime", runtime)
             st.rerun()
 
+        # Hotwords settings
+        hotwords_enabled = st.toggle(t("Enable Hotwords"), value=load_key("whisper.hotwords_enabled"), help=t("Enable hotwords for better recognition of specific terms"))
+        if hotwords_enabled != load_key("whisper.hotwords_enabled"):
+            update_key("whisper.hotwords_enabled", hotwords_enabled)
+            st.rerun()
+
+        if hotwords_enabled:
+            hotwords = st.text_input(t("Hotwords"), value=load_key("whisper.hotwords"), help=t("Comma-separated list of hotwords (e.g., API, HTTP, SQL, Python, GitHub)"))
+            if hotwords != load_key("whisper.hotwords"):
+                update_key("whisper.hotwords", hotwords)
+
         with c2:
             target_language = st.text_input(t("Target Lang"), value=load_key("target_language"), help=t("Input any language in natural language, as long as llm can understand"))
             if target_language != load_key("target_language"):

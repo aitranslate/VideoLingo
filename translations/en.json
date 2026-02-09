@@ -109,5 +109,9 @@
     "No NVIDIA GPU detected": "No NVIDIA GPU detected",
     "No NVIDIA GPU detected or NVIDIA drivers not properly installed": "No NVIDIA GPU detected or NVIDIA drivers not properly installed",
     "LLM JSON Format Support": "LLM JSON Format Support",
-    "Enable if your LLM supports JSON mode output": "Enable if your LLM supports JSON mode output"
+    "Enable if your LLM supports JSON mode output": "Enable if your LLM supports JSON mode output",
+    "Enable Hotwords": "Enable Hotwords",
+    "Enable hotwords for better recognition of specific terms": "Enable hotwords for better recognition of specific terms",
+    "Hotwords": "Hotwords",
+    "Comma-separated list of hotwords (e.g., API, HTTP, SQL, Python, GitHub)": "Comma-separated list of hotwords (e.g., API, HTTP, SQL, Python, GitHub)"
 }
