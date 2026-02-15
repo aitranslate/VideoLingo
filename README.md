@@ -17,6 +17,7 @@
 ### 最近更新
 **2025-02**
   - 升级 numpy (2.0.2 → 2.2.6) 和 whisperx (3.7.4 → 3.8.1)
+  - 锁定 av==12.1.0 版本，防止 whisperx 自动安装最新版导致 DLL 报错
 
 **2025-01**
   - 使用 [`audio-separator`](https://github.com/nomadkaraoke/python-audio-separator) 替代 `demucs` 以实现更好的人声分离（采用 UVR-MDX-NET-Inst_HQ_3 模型）

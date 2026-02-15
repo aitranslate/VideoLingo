@@ -13,6 +13,8 @@
 ## 📝 My Modifications & Improvements
 
 ### Recent Updates
+- **2025-02**: Upgraded numpy (2.0.2 → 2.2.6) and whisperx (3.7.4 → 3.8.1)
+  - Locked av==12.1.0 to prevent whisperx from automatically installing latest version which causes DLL errors
 - **2025-01**: Replaced `demucs` with `audio-separator[gpu]==0.41.0` for better vocal separation
   - Updated all dependencies to latest versions (PyTorch 2.8.0, WhisperX, etc.)
   - Removed cloud-based transcription channels (elevenlabs, whisperX_302)
