@@ -11,12 +11,12 @@ import time
 app = Flask(__name__)
 
 # Initialize TTS model
-# Note: Ensure 'checkpoints' directory and 'checkpoints/2.0/config.yaml' file exist
+# Note: Ensure 'checkpoints' directory and 'checkpoints/config.yaml' file exist
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
 
 # Use IndexTTS2 model with more parameters
-tts = IndexTTS2(cfg_path="checkpoints/2.0/config.yaml", model_dir="checkpoints/2.0", use_fp16=True, use_cuda_kernel=True, use_deepspeed=False)
+tts = IndexTTS2(cfg_path="checkpoints/config.yaml", model_dir="checkpoints", use_fp16=True, use_cuda_kernel=True, use_deepspeed=False)
 
 # Add thread lock (kept to ensure CUDA inference processes serially in order)
 tts_lock = threading.Lock()

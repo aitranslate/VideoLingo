@@ -12,20 +12,21 @@
 
 ### 1. 安装依赖
 
+到 indextts 目录运行
+
 ```bash
-pip install flask
+uv pip install flask
 ```
 
 确保已安装 [IndexTTS](https://github.com/index-tts/index-tts) 并配置好模型文件：
 
 ```bash
 # 目录结构示例
-your-indextts-directory/
+indextts/
 ├── api_server.py          # 从这里复制此文件
 ├── checkpoints/
-│   └── 2.0/
-│       ├── config.yaml
-│       └── model files...
+│   ├── config.yaml
+│   └── model files...
 └── voices/
     ├── voice_01.wav
     ├── voice_02.wav
@@ -44,7 +45,7 @@ cp resources/indextts_api/api_server.py /path/to/your-indextts/api_server.py
 
 ```bash
 cd /path/to/your-indextts
-python api_server.py
+uv run python api_server.py
 ```
 
 服务器默认运行在 `http://0.0.0.0:9880`
