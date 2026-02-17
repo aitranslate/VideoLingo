@@ -10,12 +10,49 @@ from core.tts_backend.index_tts import index_tts_for_videolingo
 from core.prompts import get_correct_text_prompt
 from core.utils import *
 
+# Volume normalization target (dBFS) - common standard for video audio
+TARGET_VOLUME_DBFS = -16.0
+
+
+def normalize_audio_volume(audio_path: str) -> bool:
+    """
+    Normalize audio volume to target dBFS
+
+    Args:
+        audio_path: Path to audio file
+
+    Returns:
+        bool: True on success
+    """
+    try:
+        audio = AudioSegment.from_file(audio_path)
+        current_dbfs = audio.dBFS
+
+        if current_dbfs == float('-inf'):
+            rprint(f"[yellow]⚠️ Audio is silent, skipping normalization[/yellow]")
+            return True
+
+        # Calculate the gain needed to reach target dBFS
+        change_in_dbfs = TARGET_VOLUME_DBFS - current_dbfs
+        normalized_audio = audio + change_in_dbfs
+
+        # Overwrite the original file with normalized audio
+        normalized_audio.export(audio_path, format="wav")
+
+        rprint(f"[blue]🔊 Volume normalized: {current_dbfs:.1f} dBFS → {TARGET_VOLUME_DBFS:.1f} dBFS[/blue]")
+        return True
+    except Exception as e:
+        rprint(f"[yellow]⚠️ Failed to normalize volume: {e}[/yellow]")
+        return False
+
+
 def clean_text_for_tts(text):
     """Remove problematic characters for TTS"""
     chars_to_remove = ['&', '®', '™', '©']
     for char in chars_to_remove:
         text = text.replace(char, '')
     return text.strip()
+
 
 def tts_main(text, save_as, number, task_df):
     text = clean_text_for_tts(text)
@@ -51,6 +88,9 @@ def tts_main(text, save_as, number, task_df):
                 index_tts_for_videolingo(text, save_as, number, task_df)
             else:
                 raise ValueError(f"Unknown TTS method: {TTS_METHOD}")
+
+            # Normalize volume
+            normalize_audio_volume(save_as)
 
             # Check generated audio duration
             duration = get_audio_duration(save_as)

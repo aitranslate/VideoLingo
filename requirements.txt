@@ -21,6 +21,7 @@ InquirerPy
 autocorrect-py
 ctranslate2==4.6.3
 edge-tts
+pysubs2
 av==12.1.0
 
 whisperx==3.8.1
