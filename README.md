@@ -20,6 +20,7 @@
   - 添加 TTS 音频片段归一化（-16 dBFS），提升配音音量一致性
   - 升级 numpy (2.0.2 → 2.2.6) 和 whisperx (3.7.4 → 3.8.1)
   - 锁定 av==12.1.0 版本，防止 whisperx 自动安装最新版导致 DLL 报错
+  - 新增"只转录"模式：跳过翻译流程，直接生成源语言转录字幕
 
 **2025-01**
   - 使用 [`audio-separator`](https://github.com/nomadkaraoke/python-audio-separator) 替代 `demucs` 以实现更好的人声分离（采用 UVR-MDX-NET-Inst_HQ_3 模型）
@@ -50,6 +51,8 @@ VideoLingo 是一站式视频翻译本地化配音工具，能够一键生成 Ne
 - **🔄 三步直译、反思、意译，实现影视级翻译质量**
 
 - **✅ 按照 Netflix 标准检查单行长度，绝无双行字幕**
+
+- **🎯 支持只转录模式：跳过翻译流程，直接生成源语言字幕**
 
 - **🗣️ 支持 Edge TTS、GPT-SoVITS、IndexTTS、Custom TTS 本地配音方案**
 
