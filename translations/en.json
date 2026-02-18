@@ -113,5 +113,7 @@
     "Enable Hotwords": "Enable Hotwords",
     "Enable hotwords for better recognition of specific terms": "Enable hotwords for better recognition of specific terms",
     "Hotwords": "Hotwords",
-    "Comma-separated list of hotwords (e.g., API, HTTP, SQL, Python, GitHub)": "Comma-separated list of hotwords (e.g., API, HTTP, SQL, Python, GitHub)"
+    "Comma-separated list of hotwords (e.g., API, HTTP, SQL, Python, GitHub)": "Comma-separated list of hotwords (e.g., API, HTTP, SQL, Python, GitHub)",
+    "Only Transcribe": "Only Transcribe",
+    "Skip translation and generate transcription-only subtitles": "Skip translation and generate transcription-only subtitles"
 }

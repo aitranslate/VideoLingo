@@ -124,7 +124,7 @@ def align_timestamp(df_text, df_translate, subtitle_output_configs: list, output
     df_trans_time['timestamp'] = df_trans_time['timestamp'].apply(lambda x: convert_to_srt_format(x[0], x[1]))
 
     # Polish subtitles: replace punctuation in Translation if for_display
-    if for_display:
+    if for_display and 'Translation' in df_trans_time.columns:
         df_trans_time['Translation'] = df_trans_time['Translation'].apply(lambda x: re.sub(r'[，。]', ' ', x).strip())
 
     # Output subtitles 📜
@@ -147,22 +147,33 @@ def clean_translation(x):
     cleaned = str(x).strip('。').strip('，')
     return autocorrect.format(cleaned)
 
-def align_timestamp_main():
+def align_timestamp_main(only_transcribe=False):
     df_text = pd.read_csv(_2_CLEANED_CHUNKS)
     df_text['text'] = df_text['text'].str.strip('"').str.strip()
-    df_translate = pd.read_csv(_5_SPLIT_SUB)
-    df_translate['Translation'] = df_translate['Translation'].apply(clean_translation)
 
-    align_timestamp(df_text, df_translate, SUBTITLE_OUTPUT_CONFIGS, _OUTPUT_DIR)
-    console.print(Panel("[bold green]🎉📝 Subtitles generation completed! Please check in the `output` folder 👀[/bold green]"))
+    if only_transcribe:
+        # Read split sentences from LLM-based sentence splitting
+        with open(_3_2_SPLIT_BY_MEANING, 'r', encoding='utf-8') as f:
+            sentences = [line.strip() for line in f.readlines() if line.strip()]
+        df_translate = pd.DataFrame({'Source': sentences, 'Translation': [''] * len(sentences)})
+        output_configs = [('src.srt', ['Source'])]
+        console.print(Panel("[bold green]🎉📝 Transcription-only subtitles generation completed! Please check in the `output` folder 👀[/bold green]"))
+    else:
+        df_translate = pd.read_csv(_5_SPLIT_SUB)
+        df_translate['Translation'] = df_translate['Translation'].apply(clean_translation)
+        output_configs = SUBTITLE_OUTPUT_CONFIGS
+        console.print(Panel("[bold green]🎉📝 Subtitles generation completed! Please check in the `output` folder 👀[/bold green]"))
 
-    # for audio
-    df_translate_for_audio = pd.read_csv(_5_REMERGED) # use remerged file to avoid unmatched lines when dubbing
-    df_translate_for_audio['Translation'] = df_translate_for_audio['Translation'].apply(clean_translation)
-    
-    align_timestamp(df_text, df_translate_for_audio, AUDIO_SUBTITLE_OUTPUT_CONFIGS, _AUDIO_DIR)
-    console.print(Panel(f"[bold green]🎉📝 Audio subtitles generation completed! Please check in the `{_AUDIO_DIR}` folder 👀[/bold green]"))
-    
+    align_timestamp(df_text, df_translate, output_configs, _OUTPUT_DIR)
+
+    # for audio (skip in only_transcribe mode)
+    if not only_transcribe:
+        df_translate_for_audio = pd.read_csv(_5_REMERGED) # use remerged file to avoid unmatched lines when dubbing
+        df_translate_for_audio['Translation'] = df_translate_for_audio['Translation'].apply(clean_translation)
+
+        align_timestamp(df_text, df_translate_for_audio, AUDIO_SUBTITLE_OUTPUT_CONFIGS, _AUDIO_DIR)
+        console.print(Panel(f"[bold green]🎉📝 Audio subtitles generation completed! Please check in the `{_AUDIO_DIR}` folder 👀[/bold green]"))
+
 
 if __name__ == '__main__':
     align_timestamp_main()

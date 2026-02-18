@@ -64,6 +64,11 @@ def page_setting():
             update_key("whisper.runtime", runtime)
             st.rerun()
 
+        only_transcribe = st.toggle(t("Only Transcribe"), value=load_key("subtitle.only_transcribe"), help=t("Skip translation and generate transcription-only subtitles"))
+        if only_transcribe != load_key("subtitle.only_transcribe"):
+            update_key("subtitle.only_transcribe", only_transcribe)
+            st.rerun()
+
         # Hotwords settings
         hotwords_enabled = st.toggle(t("Enable Hotwords"), value=load_key("whisper.hotwords_enabled"), help=t("Enable hotwords for better recognition of specific terms"))
         if hotwords_enabled != load_key("whisper.hotwords_enabled"):

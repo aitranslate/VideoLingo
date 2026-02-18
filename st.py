@@ -62,19 +62,25 @@ def text_processing_section():
             return True
 
 def process_text():
+    only_transcribe = load_key("subtitle.only_transcribe")
+
     with st.spinner(t("Using Whisper for transcription...")):
         _2_asr.transcribe()
     with st.spinner(t("Splitting long sentences...")):
         _3_1_split_nlp.split_by_spacy()
         _3_2_split_meaning.split_sentences_by_meaning()
-    with st.spinner(t("Summarizing and translating...")):
-        _4_1_summarize.get_summary()
-        if load_key("pause_before_translate"):
-            input(t("⚠️ PAUSE_BEFORE_TRANSLATE. Go to `output/log/terminology.json` to edit terminology. Then press ENTER to continue..."))
-        _4_2_translate.translate_all()
-    with st.spinner(t("Processing and aligning subtitles...")):
-        _5_split_sub.split_for_sub_main()
-        _6_gen_sub.align_timestamp_main()
+
+    if not only_transcribe:
+        with st.spinner(t("Summarizing and translating...")):
+            _4_1_summarize.get_summary()
+            if load_key("pause_before_translate"):
+                input(t("⚠️ PAUSE_BEFORE_TRANSLATE. Go to `output/log/terminology.json` to edit terminology. Then press ENTER to continue..."))
+            _4_2_translate.translate_all()
+        with st.spinner(t("Processing and aligning subtitles...")):
+            _5_split_sub.split_for_sub_main()
+
+    _6_gen_sub.align_timestamp_main(only_transcribe=only_transcribe)
+
     with st.spinner(t("Merging subtitles to video...")):
         _7_sub_into_vid.merge_subtitles_to_video()
 

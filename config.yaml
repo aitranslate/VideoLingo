@@ -57,6 +57,8 @@ subtitle:
   target_multiplier: 1.2
   # *Whether to burn dual subtitles (source + translated), false for translated only
   dual_subtitle: true
+  # *Only generate transcription without translation, skip translation steps
+  only_transcribe: true
 
 # *Summary length, set low to 2k if using local LLM
 summary_length: 8000
